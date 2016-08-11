@@ -89,7 +89,7 @@ public class HomeScreen extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent openCamera = new Intent(HomeScreen.this, Battle.class);
+                Intent openCamera = new Intent(HomeScreen.this, CatchActivity.class);
                 startActivity(openCamera);
             }
 
