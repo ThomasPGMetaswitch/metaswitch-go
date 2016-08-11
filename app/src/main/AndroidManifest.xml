@@ -3,6 +3,7 @@
     package="com.example.metaswitchgo.metaswitchgo">
 
     <uses-permission android:name="android.permission.CAMERA"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -22,9 +23,27 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".CatchActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.CATCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Battle">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Camera">
             <intent-filter>
                 <action android:name="android.intent.action.CAMERA" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MetadexDetails">
+            <intent-filter>
+                <action android:name="android.intent.action.DETAILS" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

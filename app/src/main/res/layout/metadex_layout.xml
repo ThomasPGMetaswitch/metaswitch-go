@@ -28,8 +28,16 @@
     </LinearLayout>
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:id="@+id/scrollViewDex"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/ll">
+        </LinearLayout>
 
 
     </ScrollView>
