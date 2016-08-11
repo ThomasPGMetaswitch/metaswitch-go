@@ -1,6 +1,8 @@
 package com.example.metaswitchgo.metaswitchgo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +37,19 @@ public class HomeScreen extends AppCompatActivity {
         addCameraButton();
         addBattleButton();
 
+        // Get intent, action and MIME type
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent); // Handle text being sent
+            }
+        } else {
+
+        }
+
         Details d = new Details();
         d.getAllInitials();
         //
@@ -59,8 +74,10 @@ public class HomeScreen extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent openCamera = new Intent(HomeScreen.this, CatchActivity.class);
-                startActivity(openCamera);
+                //Intent openCamera = new Intent(HomeScreen.this, MainActivity.class);
+                //startActivity(openCamera);
+                openApp(HomeScreen.this ,"com.luxand.facerecognition");
+                finish();
             }
 
         });
@@ -77,6 +94,25 @@ public class HomeScreen extends AppCompatActivity {
             }
 
         });
+    }
+
+    public static boolean openApp(Context context, String packageName) {
+        PackageManager manager = context.getPackageManager();
+        Intent i = manager.getLaunchIntentForPackage(packageName);
+        if (i == null) {
+            return false;
+            //throw new PackageManager.NameNotFoundException();
+        }
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        context.startActivity(i);
+        return true;
+    }
+    void handleSendText(Intent data) {
+        // The person was identified.
+        // The Intent's data string gives the initials    }
+        String initials = getIntent().getStringExtra(Intent.EXTRA_TEXT);
+        // Do something with the initals here
+        System.out.println("You caught " + initials +"!");
     }
 
 }
