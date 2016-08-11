@@ -29,9 +29,33 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".Waiting">
+            <intent-filter>
+                <action android:name="android.intent.action.WAITINGFORRESULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".BattleScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.BATTLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".CatchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.CATCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Signin">
+            <intent-filter>
+                <action android:name="android.intent.action.SIGNIN" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".WaitingForBattle">
+            <intent-filter>
+                <action android:name="android.intent.action.WAITING" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

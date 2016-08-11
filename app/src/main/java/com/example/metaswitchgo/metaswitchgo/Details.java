@@ -1,5 +1,6 @@
 package com.example.metaswitchgo.metaswitchgo;
 
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -30,6 +31,10 @@ import java.util.Comparator;
  */
 public class Details {
 
+    static TextToSpeech mTTS;
+
+    static String myInitials = "TCPG";
+
     static ArrayList<String>  caughtInitials = new ArrayList<>();
 
     static ArrayList<String> everyInitial = new ArrayList<>();
@@ -38,10 +43,27 @@ public class Details {
 
     public Details()
     {
+
+
         caughtInitials.add("TCPG");
         caughtInitials.add("AMO");
         caughtInitials.add("MDWC");
         caughtInitials.add("JZ2");
+    }
+
+    public void addTTS(TextToSpeech t1)
+    {
+        mTTS = t1;
+    }
+
+    public TextToSpeech getTTS()
+    {
+        return mTTS;
+    }
+
+    public String getMyInitials()
+    {
+        return myInitials;
     }
 
     public static ArrayList<String> getCaughtInitials() {
@@ -54,6 +76,16 @@ public class Details {
         });
 
         return caughtInitials;
+    }
+
+    public void setMyInitials(String init)
+    {
+        myInitials = init;
+    }
+
+    public static void addToCaughtInitials(String initials)
+    {
+        caughtInitials.add(initials.toUpperCase());
     }
 
     public static ArrayList<MetadexEntry> getCaughtEntry()

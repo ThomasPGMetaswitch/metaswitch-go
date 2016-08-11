@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.speech.tts.TextToSpeech;
 import android.util.Base64;
 import android.view.Display;
@@ -24,7 +25,6 @@ import java.util.Locale;
  */
 public class MetadexDetails extends Activity
 {
-    TextToSpeech t1;
     String toSpeak = "Harmabe";
     int index;
     ArrayList<MetadexEntry> caughtEntries;
@@ -45,18 +45,9 @@ public class MetadexDetails extends Activity
         addBackButton();
 
         mEntry = caughtEntries.get(index - 1);
-        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-            @Override
-            public void onInit(int status) {
-                if(status != TextToSpeech.ERROR) {
-                    t1.setLanguage(Locale.UK);
-                    t1.setPitch(4);
-                    t1.setSpeechRate(2);
+        System.out.println("SPEAK");
+        d.getTTS().speak(mEntry.getmName(), TextToSpeech.QUEUE_FLUSH, null);
 
-                    t1.speak(mEntry.getmName(), TextToSpeech.QUEUE_FLUSH, null);
-                }
-            }
-        });
         addDetails();
 
 
@@ -70,20 +61,14 @@ public class MetadexDetails extends Activity
     }
 
     public void onPause(){
-        if(t1 !=null){
-            t1.stop();
-            t1.shutdown();
-        }
+
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(t1 !=null){
-            t1.stop();
-            t1.shutdown();
-        }
+
     }
 
     public void addBackButton() {

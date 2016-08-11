@@ -16,6 +16,16 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/signin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="openCamera"
+            android:text="Sign in"
+            android:textColorHighlight="@color/blue"
+            android:background="@color/orange"
+            android:layout_alignParentStart="true" />
+
+        <Button
             android:id="@+id/camera_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
