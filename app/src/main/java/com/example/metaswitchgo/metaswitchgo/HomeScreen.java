@@ -79,14 +79,20 @@ public class HomeScreen extends AppCompatActivity {
 
 
         d.getAllInitials();
+
         if (readFromFile(this) != null)
         {
             d.setMyInitials(readFromFile(this));
+            if (!d.getCaughtInitials().contains(readFromFile(this)))
+            {
+                d.addToCaughtInitials(readFromFile(this));
+            }
+
         }
 
         //new LongOperation().execute();
 
-         p = new PollForBattle();
+         p = new PollForBattle(this);
         p.execute();
 
 
@@ -149,7 +155,7 @@ public class HomeScreen extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         p.cancel(true);
-        p = new PollForBattle();
+        p = new PollForBattle(this);
         p.execute();
     }
 
@@ -173,6 +179,7 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
+        System.out.println("ONPAUSE");
         p.cancel(true);
 
     }
@@ -236,8 +243,6 @@ public class HomeScreen extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-
-            d.addTTS(t1);
             System.out.print("POLLING");
             String path = "http://vac2/update_last_seen?initials=" + d.getMyInitials();
             System.out.println(path);

@@ -30,11 +30,12 @@ class PollForBattle extends AsyncTask<String, Void, String> {
     Details d;
     boolean battle;
     boolean done;
-    Context mContext;
+    static Context mContext;
     TextToSpeech t1;
 
-    public PollForBattle(){
+    public PollForBattle(Context c){
         d = new Details();
+        mContext = c;
     }
 
     @Override
@@ -73,6 +74,10 @@ class PollForBattle extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }
         while (!battle){
+            if(isCancelled())
+            {
+                break;
+            }
             try {
                 synchronized (this){
                     Thread.sleep(3000);

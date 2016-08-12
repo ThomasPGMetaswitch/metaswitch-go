@@ -31,6 +31,7 @@ public class Metadex extends Activity{
     int width;
     float ratio;
     ArrayList<MetadexEntry> caughtEntries;
+    PollForBattle p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +40,21 @@ public class Metadex extends Activity{
 
         Details d = new Details();
         caughtEntries = d.getCaughtEntry();
+        for (int ii = 0; ii<caughtEntries.size(); ii++)
+        {
+            System.out.println(caughtEntries.get(ii).mInitials);
+        }
+
         mNumberOfEmployees = caughtEntries.size();
+        System.out.println("NUMBER" + mNumberOfEmployees);
 
 
         getScreenSize();
 
         addBackButton();
         addImages();
+        p = new PollForBattle(this);
+        p.execute();
     }
 
     private void getScreenSize()
@@ -56,10 +65,6 @@ public class Metadex extends Activity{
         width = size.x;
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
 
     public void addBackButton() {
         Button back_button = (Button) findViewById(R.id.back_to_menu);
@@ -95,6 +100,22 @@ public class Metadex extends Activity{
 
         });
         row.addView(details_button);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        p.cancel(true);
+        p = new PollForBattle(this);
+        p.execute();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        System.out.println("ONPAUSE");
+        p.cancel(true);
+
     }
 
     private void addBlankButton(LinearLayout row)

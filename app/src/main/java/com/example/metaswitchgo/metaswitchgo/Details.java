@@ -47,11 +47,6 @@ public class Details {
     public Details()
     {
 
-
-        caughtInitials.add("TCPG");
-        caughtInitials.add("AMO");
-        caughtInitials.add("MDWC");
-        caughtInitials.add("JZ2");
     }
 
     public void addTTS(TextToSpeech t1)
@@ -161,7 +156,22 @@ public class Details {
                     if (caughtInitials.contains(split[ii]))
                     {
                         MetadexEntry newEntry = new MetadexEntry(split[ii]);
-                        caughtEntry.add(newEntry);
+
+                        boolean add = true;
+                        for(int kk = 0; kk < caughtEntry.size(); kk++)
+                        {
+                            if (caughtEntry.get(kk).getmInitials() == split[ii])
+                            {
+                                System.out.println("ALREADY CONTAINS");
+                                add = false;
+                                break;
+                            }
+                        }
+                        if(add){
+                            System.out.println("ADDING NEW PERSON" + split[ii]);
+                            caughtEntry.add(newEntry);
+                        }
+
                         String output = null;
 
                         try {
@@ -209,15 +219,14 @@ public class Details {
                                     break;
                                 case(" Name"):
                                     newEntry.setmName(variable[1]);
-                                    System.out.println("SET NAME = " + variable[1]);
                                     break;
                                 case("Directory photo"):
+                                    System.out.println(variable[1]);
                                     newEntry.setmPhoto(variable[1]);
                             }
                         }
                     }
                 }
-                System.out.println("DONEDONEDONE");
             }
         });
 
