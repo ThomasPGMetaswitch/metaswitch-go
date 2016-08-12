@@ -36,6 +36,7 @@ public class HomeScreen extends AppCompatActivity {
     boolean battle;
     boolean done;
     TextToSpeech t1;
+    PollForBattle p;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,10 @@ public class HomeScreen extends AppCompatActivity {
             d.setMyInitials(readFromFile(this));
         }
 
-        new LongOperation().execute();
+        //new LongOperation().execute();
+
+         p = new PollForBattle();
+        p.execute();
 
 
     }
@@ -122,7 +126,7 @@ public class HomeScreen extends AppCompatActivity {
 
             @Override
             public void onClick(View arg0) {
-                Intent openCamera = new Intent(HomeScreen.this, Battle.class);
+                Intent openCamera = new Intent(HomeScreen.this, BattleLoading.class);
                 startActivity(openCamera);
             }
 
@@ -141,15 +145,35 @@ public class HomeScreen extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        p.cancel(true);
+        p = new PollForBattle();
+        p.execute();
+    }
+
     void handleSendText(Intent data) {
         // The person was identified.
         // The Intent's data string gives the initials    }
         String initials = getIntent().getStringExtra(Intent.EXTRA_TEXT);
         // Do something with the initals here
         System.out.println("You caught " + initials +"!");
-        d.addToCaughtInitials(initials);
+        if(!d.getCaughtInitials().contains(initials))
+        {
+            d.addToCaughtInitials(initials);
+        }
+
         Intent openCamera = new Intent(HomeScreen.this, Caught.class);
+        openCamera.putExtra("Initials",initials);
         startActivity(openCamera);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        p.cancel(true);
 
     }
 
@@ -212,18 +236,7 @@ public class HomeScreen extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
 
-            t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
-                @Override
-                public void onInit(int status) {
-                    if(status != TextToSpeech.ERROR) {
-                        t1.setLanguage(Locale.UK);
-                        t1.setPitch(4);
-                        t1.setSpeechRate(3);
 
-
-                    }
-                }
-            });
             d.addTTS(t1);
             System.out.print("POLLING");
             String path = "http://vac2/update_last_seen?initials=" + d.getMyInitials();

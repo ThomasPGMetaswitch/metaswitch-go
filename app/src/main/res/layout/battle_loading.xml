@@ -11,15 +11,8 @@
         android:id="@+id/button"
         android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:textSize="40sp"
-        android:id="@+id/youcaught"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <ImageView
-        android:id="@+id/caughtimageview"
+        android:id="@+id/loadingbattle"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 </LinearLayout>

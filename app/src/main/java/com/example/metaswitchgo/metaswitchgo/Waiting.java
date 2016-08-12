@@ -63,12 +63,15 @@ public class Waiting extends Activity {
         TextView t = (TextView) findViewById(R.id.textView3);
         switch (status){
             case(0):
+                t.setText("");
                 r.setBackgroundResource(R.drawable.metaloser1);
                 break;
             case(1):
+                t.setText("");
                 r.setBackgroundResource(R.drawable.metadraw);
                 break;
             case(2):
+                t.setText("");
                 r.setBackgroundResource(R.drawable.metawinner);
                 break;
         }

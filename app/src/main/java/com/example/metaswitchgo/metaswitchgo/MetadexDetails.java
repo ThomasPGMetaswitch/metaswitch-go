@@ -59,8 +59,19 @@ public class MetadexDetails extends Activity
 
         mEntry = caughtEntries.get(index - 1);
 
-        t1 = d.getTTS();
-        t1.speak(mEntry.getmName(), TextToSpeech.QUEUE_FLUSH, null);
+        t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR) {
+                    t1.setLanguage(Locale.UK);
+                    t1.setPitch(4);
+                    t1.setSpeechRate(3);
+                    t1.speak(mEntry.getmName(), TextToSpeech.QUEUE_FLUSH, null);
+
+                }
+            }
+        });
+
 
         addDetails();
     }

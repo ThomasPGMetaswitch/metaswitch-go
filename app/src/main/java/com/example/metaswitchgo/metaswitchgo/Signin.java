@@ -71,7 +71,7 @@ public class Signin extends Activity {
         });
 
         TextView t4 = (TextView) findViewById(R.id.textView4);
-        t4.setText(d.getMyInitials());
+        t4.setText("Initials: " + d.getMyInitials());
     }
 
     private void writeToFile(String data,Context context) {

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animation-list android:id="@+id/battle"
+    android:oneshot="false"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/battle1" android:duration="50" />
+    <item android:drawable="@drawable/battle2" android:duration="50" />
+    <item android:drawable="@drawable/battle1" android:duration="50" />
+    <item android:drawable="@drawable/battle2" android:duration="50" />
+    <item android:drawable="@drawable/battle3" android:duration="60" />
+    <item android:drawable="@drawable/battle4" android:duration="70" />
+    <item android:drawable="@drawable/battle5" android:duration="80" />
+    <item android:drawable="@drawable/battle6" android:duration="90" />
+    <item android:drawable="@drawable/battle7" android:duration="100" />
+    <item android:drawable="@drawable/battle8" android:duration="110" />
+    <item android:drawable="@drawable/battle9" android:duration="120" />
+    <item android:drawable="@drawable/battle10" android:duration="130" />
+    <item android:drawable="@drawable/battle11" android:duration="150" />
+    <item android:drawable="@drawable/battle12" android:duration="200" />
+    <item android:drawable="@drawable/battle13" android:duration="400" />
+    <item android:drawable="@drawable/battle14" android:duration="400" />
+    <item android:drawable="@drawable/battle15" android:duration="400" />
+    <item android:drawable="@drawable/battle16" android:duration="400" />
+    <item android:drawable="@drawable/battle17" android:duration="400" />
+
+</animation-list>

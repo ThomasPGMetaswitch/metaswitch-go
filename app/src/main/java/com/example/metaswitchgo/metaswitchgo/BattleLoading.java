@@ -7,31 +7,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 /**
  * Created by tcpg on 12/08/2016.
  */
-public class Caught extends Activity{
-
-    String initial;
-
+public class BattleLoading extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.caught_layout);
-        Intent intent = getIntent();
-        initial = intent.getStringExtra("Initials");
-
-        TextView t = (TextView) findViewById(R.id.youcaught);
-        t.setText("You caught " + initial);
+        setContentView(R.layout.battle_loading);
 
         Button camera_button = (Button) findViewById(R.id.button);
         camera_button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                Intent openCamera = new Intent(Caught.this, Metadex.class);
+                Intent openCamera = new Intent(BattleLoading.this, Battle.class);
                 startActivity(openCamera);
 
             }
@@ -40,8 +31,8 @@ public class Caught extends Activity{
 
         // Load the ImageView that will host the animation and
         // set its background to our AnimationDrawable XML resource.
-        ImageView img = (ImageView)findViewById(R.id.caughtimageview);
-        img.setBackgroundResource(R.drawable.animated);
+        ImageView img = (ImageView)findViewById(R.id.loadingbattle);
+        img.setBackgroundResource(R.drawable.animated_battle);
 
         // Get the background, which has been compiled to an AnimationDrawable object.
         AnimationDrawable frameAnimation = (AnimationDrawable) img.getBackground();
@@ -49,6 +40,4 @@ public class Caught extends Activity{
         // Start the animation (looped playback by default).
         frameAnimation.start();
     }
-
-
 }
