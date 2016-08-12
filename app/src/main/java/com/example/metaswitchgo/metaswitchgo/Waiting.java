@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
@@ -42,6 +43,8 @@ public class Waiting extends Activity {
         Details d = new Details();
         mInitials = d.getMyInitials();
         Button back_button = (Button) findViewById(R.id.to_menu);
+        RelativeLayout r = (RelativeLayout) findViewById(R.id.waitingbackground);
+        r.setBackgroundResource(R.drawable.metawaiting);
         back_button.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -60,13 +63,13 @@ public class Waiting extends Activity {
         TextView t = (TextView) findViewById(R.id.textView3);
         switch (status){
             case(0):
-                t.setText("You lose");
+                r.setBackgroundResource(R.drawable.metaloser1);
                 break;
             case(1):
-                t.setText("You draw");
+                r.setBackgroundResource(R.drawable.metadraw);
                 break;
             case(2):
-                t.setText("You win");
+                r.setBackgroundResource(R.drawable.metawinner);
                 break;
         }
 
@@ -82,6 +85,13 @@ public class Waiting extends Activity {
             public void run() {
                 while(!result)
                 {
+                    try{
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e)
+                    {
+
+                    }
+
                     System.out.print("POLLING");
                     System.out.print("POLLING");
                     String path = "http://vac2/get_results";

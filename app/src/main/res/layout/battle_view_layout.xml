@@ -35,34 +35,27 @@
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Water"
         android:id="@+id/waterbutton"
+        android:background="@drawable/water"
         android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:textColor="#000000"
-        android:background="#648bff" />
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="FIRE"
         android:id="@+id/firebutton"
         android:layout_below="@+id/waterbutton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="43dp"
-        android:textColor="#000000"
-        android:background="#ff3f14" />
+        android:background="@drawable/fire" />
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="LEAF"
         android:id="@+id/leafbutton"
         android:layout_below="@+id/firebutton"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="48dp"
-        android:textColor="#000000"
-        android:background="#00d15e" />
+        android:background="@drawable/leaf" />
 
 </RelativeLayout>

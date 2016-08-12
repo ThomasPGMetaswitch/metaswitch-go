@@ -65,6 +65,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".Caught">
+            <intent-filter>
+                <action android:name="android.intent.action.CAUGHT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".Camera">
             <intent-filter>
                 <action android:name="android.intent.action.CAMERA" />

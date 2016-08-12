@@ -1,5 +1,6 @@
 package com.example.metaswitchgo.metaswitchgo;
 
+import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -40,6 +41,8 @@ public class Details {
     static ArrayList<String> everyInitial = new ArrayList<>();
 
     static ArrayList<MetadexEntry> caughtEntry = new ArrayList<>();
+
+    static AsyncTask b;
 
     public Details()
     {

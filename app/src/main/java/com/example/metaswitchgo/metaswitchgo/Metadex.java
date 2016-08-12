@@ -168,6 +168,11 @@ public class Metadex extends Activity{
 
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
     public Bitmap decode(int index)
     {
         System.out.println(index);

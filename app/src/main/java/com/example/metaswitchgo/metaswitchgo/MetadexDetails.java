@@ -7,16 +7,28 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.speech.tts.TextToSpeech;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.protocol.HTTP;
+import org.json.JSONObject;
+
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -25,6 +37,7 @@ import java.util.Locale;
  */
 public class MetadexDetails extends Activity
 {
+    TextToSpeech t1;
     String toSpeak = "Harmabe";
     int index;
     ArrayList<MetadexEntry> caughtEntries;
@@ -45,30 +58,28 @@ public class MetadexDetails extends Activity
         addBackButton();
 
         mEntry = caughtEntries.get(index - 1);
-        System.out.println("SPEAK");
-        d.getTTS().speak(mEntry.getmName(), TextToSpeech.QUEUE_FLUSH, null);
+
+        t1 = d.getTTS();
+        t1.speak(mEntry.getmName(), TextToSpeech.QUEUE_FLUSH, null);
 
         addDetails();
-
-
-
-
-
-
-
-
-
     }
 
     public void onPause(){
-
+        if(t1 !=null){
+            t1.stop();
+            t1.shutdown();
+        }
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        if(t1 !=null){
+            t1.stop();
+            t1.shutdown();
+        }
     }
 
     public void addBackButton() {

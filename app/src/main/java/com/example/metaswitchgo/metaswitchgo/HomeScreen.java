@@ -24,6 +24,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -69,12 +70,18 @@ public class HomeScreen extends AppCompatActivity {
             if ("text/plain".equals(type)) {
                 handleSendText(intent); // Handle text being sent
             }
-        } else {
-
+        } else if (Intent.ACTION_MAIN.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent); // Handle text being sent
+            }
         }
 
 
         d.getAllInitials();
+        if (readFromFile(this) != null)
+        {
+            d.setMyInitials(readFromFile(this));
+        }
 
         new LongOperation().execute();
 
@@ -133,6 +140,7 @@ public class HomeScreen extends AppCompatActivity {
         context.startActivity(i);
         return true;
     }
+
     void handleSendText(Intent data) {
         // The person was identified.
         // The Intent's data string gives the initials    }
@@ -140,94 +148,12 @@ public class HomeScreen extends AppCompatActivity {
         // Do something with the initals here
         System.out.println("You caught " + initials +"!");
         d.addToCaughtInitials(initials);
+        Intent openCamera = new Intent(HomeScreen.this, Caught.class);
+        startActivity(openCamera);
 
     }
 
 
-    public void getBattleResponse()
-    {
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.out.print("POLLING");
-                while (!battle){
-                    try {
-                        synchronized (this){
-                            wait(2000);
-                        }
-
-                    } catch (InterruptedException e){
-
-                    }
-                    System.out.print("POLLING");
-                    String path = "http://vac2/battle_request?my_initials=" + d.getMyInitials();
-                    String allInitials = null;
-
-                    HttpClient client = new DefaultHttpClient();
-                    HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
-                    // Limit
-                    HttpResponse response;
-                    JSONObject json = new JSONObject();
-                    try {
-                        HttpPost post = new HttpPost(path);
-                        json.put("initials", "whatever");
-                        Log.i("jason Object", json.toString());
-                        post.setHeader("json", json.toString());
-                        StringEntity se = new StringEntity(json.toString());
-                        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
-                                "application/json"));
-                        post.setEntity(se);
-                        response = client.execute(post);
-        /* Checking response */
-                        if (response != null) {
-                            InputStream in = response.getEntity().getContent();
-                            allInitials = convertStreamToString(in);
-                            Log.i("received request?", allInitials);
-
-                        }
-                        battle = (allInitials.contains("true"));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                done = true;
-                String path = "http://vac2/target_accept_battle";
-
-                String allInitials = null;
-
-                HttpClient client = new DefaultHttpClient();
-                HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
-                // Limit
-                HttpResponse response;
-                JSONObject json = new JSONObject();
-                try {
-                    HttpPost post = new HttpPost(path);
-                    json.put("initials", "INITIALS");
-                    Log.i("jason Object", json.toString());
-                    post.setHeader("json", json.toString());
-                    StringEntity se = new StringEntity(json.toString());
-                    se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
-                            "application/json"));
-                    post.setEntity(se);
-                    response = client.execute(post);
-                    System.out.println("ACCEPTACCEPTACCEPT");
-        /* Checking response */
-                    if (response != null) {
-                        InputStream in = response.getEntity().getContent();
-                        allInitials = convertStreamToString(in);
-                        Log.i("Read from Server", allInitials);
-
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-        thread.start();
-    }
 
     private static String convertStreamToString(InputStream is) {
 
@@ -251,40 +177,102 @@ public class HomeScreen extends AppCompatActivity {
         return sb.toString();
     }
 
+    private String readFromFile(Context context) {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = context.openFileInput("config.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        return ret;
+    }
+
     private class LongOperation extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... params) {
-            t1=new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+
+            t1 = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
                 @Override
                 public void onInit(int status) {
                     if(status != TextToSpeech.ERROR) {
                         t1.setLanguage(Locale.UK);
                         t1.setPitch(4);
-                        t1.setSpeechRate(2);
-                        System.out.println("INITED");
+                        t1.setSpeechRate(3);
+
+
                     }
                 }
             });
             d.addTTS(t1);
+            System.out.print("POLLING");
+            String path = "http://vac2/update_last_seen?initials=" + d.getMyInitials();
+            System.out.println(path);
+            String allInitials = null;
+
+            HttpClient client = new DefaultHttpClient();
+            HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
+            // Limit
+            HttpResponse response;
+            JSONObject json = new JSONObject();
+            try {
+                HttpPost post = new HttpPost(path);
+                json.put("initials", "whatever");
+                Log.i("jason Object", json.toString());
+                post.setHeader("json", json.toString());
+                StringEntity se = new StringEntity(json.toString());
+                se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE,
+                        "application/json"));
+                post.setEntity(se);
+                response = client.execute(post);
+        /* Checking response */
+                if (response != null) {
+                    InputStream in = response.getEntity().getContent();
+                    allInitials = convertStreamToString(in);
+                    Log.i("set online?", allInitials);
+
+                }
+                battle = (allInitials.contains("true"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             while (!battle){
                 try {
                     synchronized (this){
-                        wait(2000);
+                        Thread.sleep(3000);
                     }
 
                 } catch (InterruptedException e){
 
                 }
                 System.out.print("POLLING");
-                String path = "http://vac2/battle_request?my_initials=" + d.getMyInitials();
-                String allInitials = null;
+                path = "http://vac2/battle_request?my_initials=" + d.getMyInitials();
+                allInitials = null;
 
-                HttpClient client = new DefaultHttpClient();
+                client = new DefaultHttpClient();
                 HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); // Timeout
                 // Limit
-                HttpResponse response;
-                JSONObject json = new JSONObject();
+                json = new JSONObject();
                 try {
                     HttpPost post = new HttpPost(path);
                     json.put("initials", "whatever");
