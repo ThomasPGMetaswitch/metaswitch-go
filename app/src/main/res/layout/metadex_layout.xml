@@ -13,6 +13,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Metadex"
+            android:textColor="#000000"
             android:textSize="40sp"
             android:layout_weight="1"
             android:layout_gravity="center_horizontal"/>
@@ -22,6 +23,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Back to menu"
+            android:textColor="#000000"
             android:onClick="backToMenu"
             android:id="@+id/back_to_menu"/>
 
